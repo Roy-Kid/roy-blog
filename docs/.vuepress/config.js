@@ -1,12 +1,14 @@
 module.exports = {
 
     title: "Roy's Blog",
-    description: "A place to record Roy's growth",
+    description: "A place to record his growth",
     author: 'Roy Kid',
 
     head: [
       ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
     ],
+
+    plugins: [ 'code-switcher' ],
 
     theme: 'reco',
     themeConfig: {
