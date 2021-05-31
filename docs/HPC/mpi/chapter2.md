@@ -30,7 +30,8 @@ int main(argc, argv)
         MPI_Comm_rank(MPI_COMM_WORLD, &rank);
         MPI_Comm_size(MPI_COMM_WORLD, &size);
         MPI_Get_processor_name(processor_name, &namelen);
-
+        
+        // do something
         fprintf(stderr, "Hello World! Process %d of %d on %s\n", rank, size, processor_name);
 
         MPI_Finalize();
@@ -50,6 +51,8 @@ def main():
     rank = comm.Get_rank()
     size = comm.Get_size()
     processor_name = MPI.Get_processor_name()
+
+    # do something
     print(f'Hello World! Process {rank} of total {size} in {processor_name}')
 
 if __name__ == "__main__":
@@ -82,6 +85,38 @@ MPI预定义的宏--即某一MPI的具体实现中允许机器名字的最大长
 放在`processor_name`中. 它是一个字符串, 而该字符串的长度放在`namelen`中. fprintf语句将
 本进程的标识号, 并行执行的进程的个数, 本进程所运行的机器的名字打印出来. 和一般的
 C程序不同的是这些程序体中的执行语句是并行执行的, 每一个进程都要执行. Python程序同理, 使用`comm.Get_rank()`得到当前进程的标识号, `comm.Get_size`得到所有参加运算的进程的个数, `MPI.Get_processor_name()`得到本进程运行的机器的名称. 
+
+::: tip
+大多数MPI程序都需要在每一个进程获取当前的标志号`rank`和所有进程个数`size`, C语言的话还需要`MPI_INIT()`和`MPI_FINALIZE()`, 所以不妨把它们做成一个代码片段.
+:::
+```json
+
+	"mpi scaffold": {
+		"prefix": "mpi_scaffold",
+		"body": [
+			"#include <mpi/mpi.h>",
+			"#include <stdio.h>",
+			"#include <string.h>",
+			"$1\n",
+			
+			"int main(int argc, char *argv[]) {",
+
+		
+					"\tint rank, size;",
+			
+					"\tMPI_Init(&argc, &argv);",
+					"\tMPI_Comm_rank(MPI_COMM_WORLD, &rank);",
+					"\tMPI_Comm_size(MPI_COMM_WORLD, &size);\n",
+					"\tMPI_Status status;\n",
+			
+					"\t$2\n",
+
+					"\tMPI_Finalize();\n",
+				"}",
+		]
+	}
+
+```
 
 如何去运行这两段程序. 对于C的代码, 最好使用C编译器的wrapper`mpicc`来编译, 再执行; 而python代码, 可以直接运行:
 

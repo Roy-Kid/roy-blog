@@ -1,5 +1,5 @@
 ---
-title: 第三章- 六个接口构成的MPI子集
+title: 第三章- 常用MPI接口
 date: 2021-05-30
 categories:
  - HPC
@@ -58,9 +58,9 @@ copyIntBuffer( a, a+3, 7);
 
 再者, `mpi4py`桥接了python和C语言, 因此需要照顾两种编程思路, 所以同一个MPI函数会有很多种表达和调用形式. 在名称上仅有微弱的区分, 在后面会加以强调.
 
-之后的调用声明中, 首先给出的是MPI不依赖于语言的说明, 然后给出这个调用的C版本, 最后给出`mpi4py`形式. 
+之后的调用声明中, 首先给出的是MPI不依赖于语言的说明, 然后给出这个调用的C版本, 最后给出`mpi4py`形式. 导入`mpi4py`包的时候, 使用的是`from mpi4py import MPI`. 因此以后`MPI.method()`中的`MPI`指的就是这个`MPI`, 而`comm`是`comm = MPI.COMM_WORLD`.
 
-## 六个常用接口
+## 六个基本接口
 
 ### MPI初始化
 
@@ -173,3 +173,82 @@ status = MPI.Status()
 
 ```
 我们将在接下来的教程中详细介绍使用方法和具体含义. 
+
+## 其他常用接口
+
+### 获取机器名
+
+```
+MPI_GET_PROCESSOR_NAME name, resultlen
+OUT name 当前进程所运行机器的名字
+OUT resultlen 返回名字的的长度 以可打印字符的形式
+
+int MPI_Get_processor_name ( char *name, int *resultlen)
+
+MPI.Get_processor_name() -> str: ...
+```
+
+### 获取版本号
+
+```
+MPI_GET_VERSION(version, subversion)
+OUT version
+OUT subversion
+
+int MPI_Get_version(int * version, int * subversion)
+
+MPI.Get_version() -> Tuple[int, int]: ...
+```
+
+### 计时
+
+```
+MPI_WTIME()
+
+double MPI_Wtime(void)
+
+MPI.Wtime()
+```
+MPI_WTIME返回一个用浮点数表示的秒数, 它表示从过去某一时刻到调用时刻所经历
+的时间. 因此计算经过的时间只需要两个时间点的`Wtime()`做差即可.
+
+```
+MPI_WTICK()
+
+double MPI_Wtick()
+
+MPI.Wtick()
+```
+PI_WTICK返回MPI_WTIME的精度 单位是秒 可以认为是一个时钟滴答所占用的时间.
+
+### 是否初始化及错误退出
+
+```
+MPI_INITALIZED(flag)
+OUT flag MPI_INIT是否已执行标志
+
+int MPI_Initialized(int *flag)
+
+MPI.Is_initialized() -> bool: ...
+```
+
+```
+MPI_INITALIZED(flag)
+OUT flag MPI_INIT是否已执行标志
+
+int MPI_Initialized(int *flag)
+
+MPI.Is_finalized() -> bool: ...
+```
+
+### 推出所有进程
+```
+MPI_ABORT(comm, errorcode)
+IN comm 退出进程所在的通信域
+IN errorcode 返回到所嵌环境的错误码
+
+int MPI_Abort(MPI_Comm comm, int errorcode)
+
+comm.Abort() -> NoReturn: ...
+```
+
