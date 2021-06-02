@@ -25,7 +25,7 @@ MPI消息包括信封和数据两个部分, 信封指出了发送或接收消息
 ```
 MPI_SEND(buf, count, datatype, dest, tag, comm)
          |-------------------| |-------------|
-                消息数据             消息信封
+                消息数据           消息信封
          |-------------------| |---------------|
 MPI_RECV(buf, count, datatype, source, tag, comm, status)
 ```
@@ -33,20 +33,20 @@ MPI_RECV(buf, count, datatype, source, tag, comm, status)
 类型的数据给同一个接收者时, 如果没有消息标识, 接收者将无法区别这两个消息. 
 
 ```
-proc 0:                                        proc 1:
+proc 0:                                              proc 1:
 
-MPI_SEND( x,1,整型,1,tag1,comm) 发送消息1 ----->----|
-MPI_SEND( y,1,整型,1,tag2,comm) 发送消息2 --->---|  |
-                                               |  |
-标识为tag2的消息2到达, 没有匹配的接收操作, 先等待     |  |  标识为tag1的消息1到达,
-就是说即使进程0的消息2先到, y也不会被当作x接收,       |  v  类型,标识,源完全匹配.进程1接收消息1
-因为tag标识不匹配, 进程1将等待.                    v  |
-                                               |  |
-                                MPI_RECV(x,1,整型,0,tag1,comm,status)
-                                               | 
-                                               v  接收操作相匹配 进程1接收消息2
-                                               |
-                                MPI_RECV(y,1,整型,0,tag2,comm,status)
+MPI_SEND( x,1,整型,1,tag1,comm) 发送消息1 ----------->----|
+MPI_SEND( y,1,整型,1,tag2,comm) 发送消息2 --------->---|  |
+                                                     |  |
+tag2的消息2到达, 没有匹配的接收操作, 先等待,               |  |  标识为tag1的消息1到达,
+就是说即使proc0的消息2先到, y也不会被当作x接收,            |  v  类型,标识,源完全匹配.进程1接收消息1
+因为tag标识不匹配, 进程1将等待.                          v  |
+                                                     |  |
+                                      MPI_RECV(x,1,整型,0,tag1,comm,status)
+                                                     | 
+                                                     v  接收操作相匹配 进程1接收消息2
+                                                     |
+                                      MPI_RECV(y,1,整型,0,tag2,comm,status)
 ```
 
 ### 任意源和任意标识
