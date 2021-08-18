@@ -13,6 +13,8 @@
     "build": "vuepress build docs"
   },
   "dependencies": {
+    "markdown-it-imsize": "^2.0.1",
+    "markdown-it-katex": "^2.0.3",
     "vuepress-plugin-code-switcher": "^1.1.0"
   }
 }

@@ -97,7 +97,7 @@ int MPI_Bcast(void* buffer,int count,MPI_Datatype datatype,int root, MPI_Comm co
 下面的程序首先由ROOT进程从键盘读如一个整数, 然后广播到其它所有的进程, 各进
 程打印出收到的数据, 若该数据非负, 则循环执行上面的步骤.
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -202,7 +202,7 @@ int *recvcounts, int *displs, MPI_Datatype recvtype, int root, MPI_Comm comm)
 
 下面的程序片段实现从进程组中的每个进程收集100个整型数送给根进程
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -229,7 +229,7 @@ MPI_Gather(sendarray,100,MPI_INT,rbuf,100,MPI_INT,root,comm);
 下面的程序实现每个进程向根进程发送100个整型数, 但在接收端设置(100个数据)步长,
 用MPI_GATHERV调用和displs参数来实现. 假设步长≥100
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -331,7 +331,7 @@ int MPI_Scatterv(void* sendbuf, int *sendcounts, int *displs, MPI_Datatype sendt
 
 下面的程序片段实现根进程将向组内的每个进程分散100个整型数据
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -359,7 +359,7 @@ MPI_Scatter(sendbuf, 100, MPI_INT, rbuf, 100, MPI_INT, root, comm);
 下面的程序片段实现根进程将向组内的每个进程分散100个整型数据, 但这每100个数据
 的集合在根进程的发送消息缓冲区中相隔一定的步长.
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -440,7 +440,7 @@ int MPI_Allgatherv(void* sendbuf, int sendcount,MPI_Datatype sendtype,
 下面的程序片段实现组内每个进程都从其它进程收集100个数据, 存入各自的接收缓冲
 区
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -464,7 +464,7 @@ MPI_Allgather(sendarray, 100, MPI_INT, rbuf, 100, MPI_INT, comm);
 
 
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -491,7 +491,7 @@ displs = (int *)malloc(gsize*sizeof(int));
 
 用MPI_Allgatherv来实现
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -554,7 +554,7 @@ int MPI_Alltoall(void* sendbuf, int sendcount, MPI_Datatype sendtype,
 同进程的数据打印, 调用结束后, 再将所有从其它进程接收的数据打印, 从中可以看出发送
 和接收的对应关系.
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
@@ -660,7 +660,7 @@ int MPI_Barrier(MPI_Comm comm)
 MPI_BARRIER阻塞所有的调用者直到所有的组成员都调用了它, 各个进程中这个调用
 才可以返回.
 
-<CodeSwitcher :languages="{c:'C', :''}">
+<CodeSwitcher :languages="{c:'C', python:'Python'}">
 <template v-slot:c>
 
 ```c
