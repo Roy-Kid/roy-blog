@@ -5,25 +5,26 @@ module.exports = {
   author: 'Roy Kid',
 
   head: [
-    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }]
+    ['meta', { name: 'viewport', content: 'width=device-width,initial-scale=1,user-scalable=no' }],
+    ['link', {
+      rel: 'stylesheet',
+      href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css'
+    }],
   ],
 
   plugins: ['code-switcher',
-    'flowchart',
-    ''],
+    'flowchart'],
 
-    markdown: {
-      // markdown-it-anchor 的选项
-      anchor: { permalink: false },
-      // markdown-it-toc 的选项
-      toc: { includeLevel: [1, 2] },
-      extendMarkdown: md => {
-        // 使用更多的 markdown-it 插件!
-        md.use(require('markdown-it-katex'))
-      }
+  markdown: {
+    extendMarkdown: md => {
+      md.set({ html: true });
+      md.use(require('markdown-it-katex'))
+      md.use(require('markdown-it-imsize'))
     },
+    lineNumbers: true
+  },
 
-    theme: 'reco',
+  theme: 'reco',
   themeConfig: {
     nav: [
       { text: 'Home', link: '/', icon: 'reco-home' },
